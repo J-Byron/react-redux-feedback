@@ -24,7 +24,7 @@ const styles = {
         borderStyle: 'solid',
         borderWidth: '2px',
         borderColor: '#39A094',
-        display: 'flex',
+        display: 'block',
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -56,8 +56,7 @@ class FeelForm extends Component {
 
         return (
             <div className={classes.form}>
-                <div style={{height:300,width: 600}}>
-                    <h1 style={{ color: '#39A094' }}> How did you feel about today's material? </h1>
+                    <h1 style={{ color: '#39A094', padding:'40px 0px'}}> How did you feel about today's material? </h1>
                     <MuiThemeProvider theme={theme}>
                         <TextField
                             id="filled-multiline-flexible"
@@ -68,12 +67,11 @@ class FeelForm extends Component {
                             margin="normal"
                             variant="filled"
                         />
-                        <Button style = {{display:'flex',margin:'20px 45%'}} color="primary" className={classes.button} onClick={this.handleNextClick}>
+                        <Button style = {{display:'block',width:'20%',margin:'60px 40%'}} color="primary" className={classes.button} onClick={this.handleNextClick}>
                             Next
                         </Button>
                     </MuiThemeProvider>
                 </div>
-            </div>
         );
     }
 }
