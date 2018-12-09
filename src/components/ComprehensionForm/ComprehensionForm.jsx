@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {withRouter} from 'react-router-dom';
+import { compose } from 'redux'
  
 class ComprehensionForm extends Component {
     gotoSupportForm = () => {
