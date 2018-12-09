@@ -21,7 +21,7 @@ const styles = {
     skeleton: {
     height: 75,
     width: '100%',
-    backgroundColor: 'red',
+    backgroundColor: '#454444',
 }
 }
 
@@ -34,9 +34,7 @@ class App extends Component {
 
     return (
       <div className="App">
-      <div className={classes.skeleton}>
-
-      </div>
+      <div className={classes.skeleton}> </div>
         <Router>
           <div>
             <Route exact path="/" component={Home} />

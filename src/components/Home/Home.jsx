@@ -16,7 +16,7 @@ const styles = {
         width: '80%',
         height: 400,
         margin: '40px 10%',
-        backgroundColor: '#eee',
+        backgroundColor: 'white',
         borderRadius: '6px',
         borderStyle: 'solid',
         borderWidth: '2px',
