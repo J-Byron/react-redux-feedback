@@ -42,7 +42,7 @@ class Home extends Component {
         return (
             <div className={classes.form}>
             <MuiThemeProvider theme={buttonTheme}>
-                <Button color="primary" className={classes.button}>
+                <Button color="primary" className={classes.button} onClick={this.gotoFeelForm}>
                     Start Feedback
                 </Button>
             </MuiThemeProvider>
