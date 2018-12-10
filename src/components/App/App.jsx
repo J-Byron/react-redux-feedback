@@ -44,7 +44,6 @@ class App extends Component {
             <Route path="/CommentForm" component={CommentForm} />
           </div>
         </Router>
-        <StatusComponent/>
       </div>
     );
   }

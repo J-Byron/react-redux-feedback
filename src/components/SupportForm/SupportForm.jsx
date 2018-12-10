@@ -2,14 +2,16 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+
+// *----------*  page components *----------*
+import StatusComponent from '../StatusComponent/StatusComponent'
+
 // *----------*  *----------*
 import { withStyles } from '@material-ui/core/styles';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import FilledInput from '@material-ui/core/FilledInput';
-import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 
@@ -32,9 +34,18 @@ const styles = {
         display: 'block',
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    status: {
+        width:'80%',
+        margin: '40px 10% 10px 10%',
+        display: 'inline-block'
     }
 }
 
+// The entire store is passed in to this function
+const mapReduxToProps = (reduxStore) => ({
+    reducer: reduxStore.reviewReducer 
+});
 
 class SupportForm extends Component {
 
@@ -60,10 +71,12 @@ class SupportForm extends Component {
         const { classes } = this.props;
 
         return (
-            <div className={classes.form}>
-                    <h1 style={{ color: '#39A094', padding:'40px 0px' }}> How supported did you feel? </h1>
+            <div>
+                <div className={classes.form}>
+                    <h3 style={{ color: '#bbb' }}> - 3 / 5 - </h3>
+                    <h1 style={{ color: '#39A094', padding: '40px 0px' }}> How supported did you feel? </h1>
                     <MuiThemeProvider theme={theme}>
-                        <FormControl style ={{width: '300px'}} variant="filled" className={classes.formControl}>
+                        <FormControl style={{ width: '300px' }} variant="filled" className={classes.formControl}>
                             <Select
                                 value={this.state.response}
                                 onChange={this.handleChange}
@@ -79,13 +92,19 @@ class SupportForm extends Component {
                                 <MenuItem value={5}>5 - I feel completely supported </MenuItem>
                             </Select>
                         </FormControl>
-                        <Button style = {{display:'block',width:'20%',margin:'60px 40%'}} color="primary" className={classes.button} onClick={this.handleNextClick}>
+                        <Button style={{ display: 'block', width: '20%', margin: '60px 40%' }} color="primary" className={classes.button} onClick={this.handleNextClick}>
                             Next
                         </Button>
                     </MuiThemeProvider>
+                </div>
+                <div className={classes.status}>
+                    <StatusComponent data={this.props.reducer.feel}/>
+                    <StatusComponent data={this.props.reducer.understand}/>
+                    <StatusComponent data={this.props.reducer.support}/>
+                </div>
             </div>
         );
     }
 }
 
-export default withRouter(withStyles(styles)(connect()(SupportForm)));
+export default withRouter(withStyles(styles)(connect(mapReduxToProps)(SupportForm)));

@@ -1,46 +1,38 @@
 // *----------*  *----------*
 import React, { Component } from 'react';
-import { compose } from 'redux'
 
 // *----------* Material UI *----------*
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 
 
- 
+
 const styles = {
     card: {
-        height: 300,
+        height: '100px',
         width: '20%',
-        margin: 10,
+        margin: '0px 1%',
         maxWidth: 345,
         display: 'inline-block',
-        backgroundColor: 'green',
-        boxShadow: '0px 0px 30px rgba(20, 20, 20, 0.3)'
+        backgroundColor: '#39A094',
+        boxShadow: '0px 0px 30px rgba(20, 20, 20, 0.3)',
+        color: '#eee',
+        fontSize: '50px',
+        textAlign: 'center',
+        verticalAlign: 'middle',
+        lineHeight: '100px'
     }
 }
 
 class StatusComponent extends Component {
-    render(){
+    render() {
 
         const { classes } = this.props;
 
-        return(
-            <div className= {classes.container}>
-                <Card className={classes.card}>
-                    {'Feel Form'}
-                </Card>
-                <Card className={classes.card}>
-                    {'Comp Form'}
-                </Card>
-                <Card className={classes.card}>
-                    {'Support Form'}
-                </Card>
-                <Card className={classes.card}>
-                    {'Comment Form'}
-                </Card>
-                <button> Click me </button>
-            </div>
+        return (
+            <Card className={classes.card}>
+                {this.props.data}
+            </Card>
         );
     }
 }

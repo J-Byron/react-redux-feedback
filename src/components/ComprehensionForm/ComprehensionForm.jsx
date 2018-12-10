@@ -2,6 +2,10 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+
+// *----------*  page components *----------*
+import StatusComponent from '../StatusComponent/StatusComponent'
+
 // *----------*  *----------*
 import { withStyles } from '@material-ui/core/styles';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
@@ -9,7 +13,6 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import FilledInput from '@material-ui/core/FilledInput';
-import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 
@@ -32,9 +35,18 @@ const styles = {
         display: 'block',
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    status: {
+        width:'80%',
+        margin: '40px 10% 10px 10%',
+        display: 'inline-block'
     }
 }
 
+// The entire store is passed in to this function
+const mapReduxToProps = (reduxStore) => ({
+    reducer: reduxStore.reviewReducer 
+});
 
 class ComprehensionForm extends Component {
 
@@ -53,17 +65,19 @@ class ComprehensionForm extends Component {
         //history.goBack()
 
         // Dispatch state to reducer
-        this.props.dispatch({ type: 'ADD_INFO', payload: { key: 'understanding', value: this.state.response } })
+        this.props.dispatch({ type: 'ADD_INFO', payload: { key: 'understand', value: this.state.response } })
     }
     render() {
 
         const { classes } = this.props;
 
         return (
-            <div className={classes.form}>
-                    <h1 style={{ color: '#39A094', padding:'40px 0px' }}> How well did you understand today's material? </h1>
+            <div>
+                <div className={classes.form}>
+                    <h3 style={{ color: '#bbb' }}> - 2 / 5 - </h3>
+                    <h1 style={{ color: '#39A094', padding: '40px 0px' }}> How well did you understand today's material? </h1>
                     <MuiThemeProvider theme={theme}>
-                        <FormControl style ={{width: '300px'}} variant="filled" className={classes.formControl}>
+                        <FormControl style={{ width: '300px' }} variant="filled" className={classes.formControl}>
                             <Select
                                 value={this.state.response}
                                 onChange={this.handleChange}
@@ -73,19 +87,25 @@ class ComprehensionForm extends Component {
                                     <em>None</em>
                                 </MenuItem>
                                 <MenuItem value={1}>1 - I'm Completely lost </MenuItem>
-                                <MenuItem value={2}>2 - I'm struggling  </MenuItem>
-                                <MenuItem value={3}>3 - I'm comfortable </MenuItem>
-                                <MenuItem value={4}>4 - I'm excelling </MenuItem>
+                                <MenuItem value={2}>2</MenuItem>
+                                <MenuItem value={3}>3</MenuItem>
+                                <MenuItem value={4}>4</MenuItem>
                                 <MenuItem value={5}>5 - I'm underwhelmed </MenuItem>
                             </Select>
                         </FormControl>
-                        <Button style = {{display:'block',width:'20%',margin:'60px 40%'}} color="primary" className={classes.button} onClick={this.handleNextClick}>
+                        <Button style={{ display: 'block', width: '20%', margin: '60px 40%' }} color="primary" className={classes.button} onClick={this.handleNextClick}>
                             Next
                         </Button>
                     </MuiThemeProvider>
+                </div>
+                <div className={classes.status}>
+                    <StatusComponent data={this.props.reducer.feel} />
+                    <StatusComponent data={this.props.reducer.understand} />
+                    <StatusComponent data={this.props.reducer.support} />
+                </div>
             </div>
         );
     }
 }
 
-export default withRouter(withStyles(styles)(connect()(ComprehensionForm)));
+export default withRouter(withStyles(styles)(connect(mapReduxToProps)(ComprehensionForm)));
