@@ -58,7 +58,7 @@ class CommentForm extends Component {
     }
 
     handleNextClick = () => {
-        this.props.history.push('/CommentForm');
+        this.props.history.push('/Review');
         //history.goBack()
 
         // Dispatch state to reducer

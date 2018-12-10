@@ -85,11 +85,11 @@ class FeelForm extends Component {
                                 <MenuItem value="">
                                     <em>None</em>
                                 </MenuItem>
-                                <MenuItem value={1}>1 - I feel abandoned </MenuItem>
+                                <MenuItem value={1}>1 - I'm feeling stressed </MenuItem>
                                 <MenuItem value={2}>2</MenuItem>
                                 <MenuItem value={3}>3</MenuItem>
                                 <MenuItem value={4}>4</MenuItem>
-                                <MenuItem value={5}>5 - I feel completely supported </MenuItem>
+                                <MenuItem value={5}>5 - I'm feeling stellar! </MenuItem>
                             </Select>
                         </FormControl>
                         <Button style={{ display: 'block', width: '20%', margin: '60px 40%' }} color="primary" className={classes.button} onClick={this.handleNextClick}>
