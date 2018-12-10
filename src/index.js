@@ -14,8 +14,9 @@ import logger from 'redux-logger';
 const reviewReducer = (state = {feel:'',understand:'', support:'',comment:''}, action) =>{
     if(action.type === 'ADD_INFO'){
         return {...state, [action.payload.key]: action.payload.value}
+    }else if(action.type === 'CLEAR_INFO'){
+        return {feel:'',understand:'', support:'',comment:''};
     }
-
     return state;
 }
 

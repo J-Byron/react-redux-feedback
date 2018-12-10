@@ -120,8 +120,11 @@ class ReviewForm extends Component {
         Axios.post('/feedback', this.props.reducer).then(response => {
             this.setState({ open: true });
             // clear state and reducer
+            this.props.dispatch({ type: 'CLEAR_INFO'})
             // go to home :)
-
+            setTimeout(()=>{
+                this.props.history.push('/');
+            },3000)
         }).catch(err => {
             console.log(`Error from server in post: ${err}`);
         })
