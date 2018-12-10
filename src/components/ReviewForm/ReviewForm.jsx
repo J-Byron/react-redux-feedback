@@ -13,6 +13,12 @@ import FilledInput from '@material-ui/core/FilledInput';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
+import Snackbar from '@material-ui/core/Snackbar';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import classNames from 'classnames';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 
 
 
@@ -34,7 +40,18 @@ const styles = {
     container: {
         width: '100%',
         display: 'inline-block'
-    }
+    },
+    success: {
+        backgroundColor: '#39A094'
+    },
+    message:{
+        display: 'flex',
+        alignItems: 'center',
+    },
+    iconVariant: {
+        opacity: 0.9,
+        marginRight: '20px',
+      }
 }
 
 // The entire store is passed in to this function
@@ -42,13 +59,46 @@ const mapReduxToProps = (reduxStore) => ({
     reducer: reduxStore.reviewReducer
 });
 
+function MySnackbarContent(props) {
+    const { classes, className, message, onClose, variant, ...other } = props;
+    const Icon = CheckCircleIcon;
+
+    return (
+        <SnackbarContent
+            className={classNames(classes[variant], className)}
+            aria-describedby="client-snackbar"
+            message={
+                <span id="client-snackbar" className={classes.message}>
+                    <Icon className={classNames(classes.icon, classes.iconVariant)} />
+                    {message}
+                </span>
+            }
+            action={[
+                <IconButton
+                    key="close"
+                    aria-label="Close"
+                    color="inherit"
+                    className={classes.close}
+                    onClick={onClose}
+                >
+                    <CloseIcon className={classes.icon} />
+                </IconButton>,
+            ]}
+            {...other}
+        />
+    );
+}
+
+const MySnackbarContentWrapper = withStyles(styles)(MySnackbarContent);
+
 class ReviewForm extends Component {
 
     state = {
         feelResponse: '',
         understandResponse: '',
         supportResponse: '',
-        commentResponse: ''
+        commentResponse: '',
+        open:false
     }
 
     componentDidMount() {
@@ -67,14 +117,24 @@ class ReviewForm extends Component {
 
     handleSubmitClick = () => {
         // send reducer to DB
-        Axios.post('/feedback',this.props.reducer).then(response=>{
+        Axios.post('/feedback', this.props.reducer).then(response => {
+            this.setState({ open: true });
             // clear state and reducer
             // go to home :)
 
-        }).catch(err=>{
+        }).catch(err => {
             console.log(`Error from server in post: ${err}`);
         })
     }
+
+    handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+    
+        this.setState({ open: false });
+      };
+
     render() {
 
         const { classes } = this.props;
@@ -86,8 +146,8 @@ class ReviewForm extends Component {
                     <h1 style={{ color: '#39A094', padding: '40px 0px' }}> Review </h1>
                     <div>
                         <form className={classes.container} noValidate autoComplete="off">
-                            <FormControl style={{width: '20%', margin: '0px ' }} variant="filled" className={classes.formControl}>
-                            <InputLabel>Feeling</InputLabel>
+                            <FormControl style={{ width: '20%', margin: '0px ' }} variant="filled" className={classes.formControl}>
+                                <InputLabel>Feeling</InputLabel>
                                 <Select
                                     value={this.props.reducer.feel}
                                     onChange={this.handleChange}
@@ -103,8 +163,8 @@ class ReviewForm extends Component {
                                     <MenuItem value={5}>5 - I'm feeling stellar!</MenuItem>
                                 </Select>
                             </FormControl>
-                            <FormControl style={{width: '20%', margin: '10px 40%' }} variant="filled" className={classes.formControl}>
-                            <InputLabel>Understanding</InputLabel>
+                            <FormControl style={{ width: '20%', margin: '10px 40%' }} variant="filled" className={classes.formControl}>
+                                <InputLabel>Understanding</InputLabel>
                                 <Select
                                     value={this.props.reducer.understand}
                                     onChange={this.handleChange}
@@ -120,8 +180,8 @@ class ReviewForm extends Component {
                                     <MenuItem value={5}>5 - I'm underwhelmed </MenuItem>
                                 </Select>
                             </FormControl>
-                            <FormControl style={{width: '20%', margin: '10px 40%' }} variant="filled" className={classes.formControl}>
-                            <InputLabel>Support</InputLabel>
+                            <FormControl style={{ width: '20%', margin: '10px 40%' }} variant="filled" className={classes.formControl}>
+                                <InputLabel>Support</InputLabel>
                                 <Select
                                     value={this.props.reducer.support}
                                     onChange={this.handleChange}
@@ -151,6 +211,21 @@ class ReviewForm extends Component {
                         Submit
                         </Button>
                 </div>
+                <Snackbar
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    }}
+                    open={this.state.open}
+                    autoHideDuration={6000}
+                    onClose={this.handleClose}
+                >
+                    <MySnackbarContentWrapper
+                        onClose={this.handleClose}
+                        variant="success"
+                        message="Submitted Successfully!"
+                    />
+                </Snackbar>
             </div>
         );
     }
